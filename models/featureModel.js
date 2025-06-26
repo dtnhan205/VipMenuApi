@@ -17,6 +17,9 @@ class FeatureState {
     this.isBanBlocked = false;
     this.fakeLag = false;
     this.streamerMode = false;
+    this.aimFov = 0.0; // Giá trị từ 0.0 đến 360.0
+    this.aimWhen = 0;  // Giá trị mặc định (0: Head, 1: Neck, 2: Hip)
+    this.aimWhen2 = 0; // Thay thế AimWhen2, giữ giá trị 0, 1, 2
   }
 
   updateState(updates) {
@@ -37,6 +40,9 @@ class FeatureState {
     this.isBanBlocked = updates.isBanBlocked !== undefined ? updates.isBanBlocked : this.isBanBlocked;
     this.fakeLag = updates.fakeLag !== undefined ? updates.fakeLag : this.fakeLag;
     this.streamerMode = updates.streamerMode !== undefined ? updates.streamerMode : this.streamerMode;
+    this.aimFov = updates.aimFov !== undefined ? Math.max(0.0, Math.min(360.0, updates.aimFov)) : this.aimFov; // Giới hạn từ 0.0 đến 360.0
+    this.aimWhen = updates.aimWhen !== undefined ? updates.aimWhen : this.aimWhen;
+    this.aimWhen2 = updates.aimWhen2 !== undefined ? Math.max(0, Math.min(2, updates.aimWhen2)) : this.aimWhen2; // Giới hạn từ 0 đến 2
     return this;
   }
 
