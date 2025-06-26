@@ -18,7 +18,7 @@ const updateFeatureStates = (req, res) => {
     const {
       esp, line, espBox, health, name, skeleton, distance, circlepos, outline, oof,
       aimbot, skip, aimisVisible, fovaimglow, isBanBlocked, fakeLag, streamerMode,
-      aimFov, aimWhen, aimWhen2
+      aimFov, aimWhen, aimWhen2, fovLineColor
     } = req.body;
 
     const updatedState = {
@@ -42,6 +42,9 @@ const updateFeatureStates = (req, res) => {
       aimFov: typeof aimFov === 'number' ? Math.max(0.0, Math.min(360.0, aimFov)) : 0.0,
       aimWhen: typeof aimWhen === 'number' ? aimWhen : 0,
       aimWhen2: typeof aimWhen2 === 'number' ? Math.max(0, Math.min(2, aimWhen2)) : 0,
+      fovLineColor: Array.isArray(fovLineColor) && fovLineColor.length === 4
+        ? fovLineColor.map(c => Math.max(0.0, Math.min(1.0, c)))
+        : [1.0, 0.0, 0.0, 1.0] 
     };
 
     featureState.updateState(updatedState);
