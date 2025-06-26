@@ -12,17 +12,17 @@ const validateFeatureUpdate = (req, res, next) => {
 };
 
 // Route để lấy trạng thái tính năng
-router.get('/features', (req, res, next) => {
-  featureController.getFeatureStates(req, res).catch(next);
-});
+router.get('/features', featureController.getFeatureStates);
 
 // Route để cập nhật trạng thái tính năng
-router.post('/features', validateFeatureUpdate, (req, res, next) => {
-  featureController.updateFeatureStates(req, res).catch(next);
-});
+router.post('/features', validateFeatureUpdate, featureController.updateFeatureStates);
 
 // Middleware xử lý lỗi tập trung
 router.use((err, req, res, next) => {
+  // Kiểm tra xem headers đã được gửi chưa
+  if (res.headersSent) {
+    return next(err); // Nếu headers đã gửi, chuyển lỗi cho middleware tiếp theo
+  }
   console.error('Lỗi router:', err.stack);
   res.status(500).json({ message: 'Lỗi máy chủ nội bộ' });
 });
